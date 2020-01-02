@@ -7,7 +7,7 @@ type List struct {
 }
 
 func (list *List) PushFront(v int) {
-	newItem := NewItem(v)
+	newItem := &Item{value: v}
 
 	if list.first == nil {
 		list.first = newItem
@@ -20,7 +20,7 @@ func (list *List) PushFront(v int) {
 }
 
 func (list *List) PushBack(v int) {
-	newItem := NewItem(v)
+	newItem := &Item{value: v}
 
 	if list.last == nil {
 		list.first = newItem
@@ -90,14 +90,6 @@ type Item struct {
 	value int
 	next  *Item
 	prev  *Item
-}
-
-func NewItem(v int) *Item {
-	return &Item{
-		value: v,
-		next:  nil,
-		prev:  nil,
-	}
 }
 
 func (item *Item) Value() int {

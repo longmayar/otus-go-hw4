@@ -53,26 +53,6 @@ func TestListLen(t *testing.T) {
 	assert.Equal(t, list.Len(), 6)
 }
 
-func TestListRemove(t *testing.T) {
-	list := List{}
-	list.PushBack(3)
-	list.PushBack(2)
-	list.PushBack(1)
-
-	list.Remove(list.Last())
-
-	var actual []int
-	expected := []int{3,2}
-
-	item := list.First()
-	for item != nil {
-		actual = append(actual, item.Value())
-		item = item.next
-	}
-
-	assert.Equal(t, expected, actual)
-}
-
 func TestListFirst(t *testing.T) {
 	list := List{}
 	list.PushFront(3)
@@ -80,7 +60,7 @@ func TestListFirst(t *testing.T) {
 	list.PushFront(1)
 
 	actual := list.First().value
-	expected := NewItem(1).value
+	expected := 1
 
 	assert.Equal(t, expected, actual)
 }
@@ -92,13 +72,49 @@ func TestListLast(t *testing.T) {
 	list.PushFront(1)
 
 	actual := list.Last().value
-	expected := NewItem(3).value
+	expected := 3
+
+	assert.Equal(t, expected, actual)
+}
+
+func TestListRemove(t *testing.T) {
+	list := List{}
+	list.PushBack(5)
+	list.PushBack(4)
+	list.PushBack(3)
+	list.PushBack(2)
+	list.PushBack(1)
+
+	itemDel5 := list.First()
+	itemDel1 := list.Last()
+
+	itemDel3 := list.First()
+	for itemDel3 != nil {
+		if itemDel3.Value() == 3 {
+			break
+		}
+		itemDel3 = itemDel3.next
+	}
+
+	list.Remove(itemDel5)
+	list.Remove(itemDel3)
+	list.Remove(itemDel3)
+	list.Remove(itemDel1)
+
+	var actual []int
+	expected := []int{4,2}
+
+	item := list.First()
+	for item != nil {
+		actual = append(actual, item.Value())
+		item = item.next
+	}
 
 	assert.Equal(t, expected, actual)
 }
 
 func TestItemValue(t *testing.T) {
-	item := NewItem(1)
+	item := &Item{value: 1}
 	actual := item.Value()
 	expected := 1
 
@@ -106,8 +122,8 @@ func TestItemValue(t *testing.T) {
 }
 
 func TestItemPrev(t *testing.T) {
-	prevItem := NewItem(1)
-	item := NewItem(1)
+	prevItem := &Item{value: 1}
+	item := &Item{value: 1}
 	item.prev = prevItem
 
 	actual := item.Prev()
@@ -117,8 +133,8 @@ func TestItemPrev(t *testing.T) {
 }
 
 func TestItemNext(t *testing.T) {
-	nextItem := NewItem(3)
-	item := NewItem(1)
+	nextItem := &Item{value: 3}
+	item := &Item{value: 1}
 	item.next = nextItem
 
 	actual := item.Next()
