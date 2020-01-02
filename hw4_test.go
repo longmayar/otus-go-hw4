@@ -85,6 +85,7 @@ func TestListRemove(t *testing.T) {
 	list.PushBack(2)
 	list.PushBack(1)
 
+	itemDelOrphan := &Item{value: 0}
 	itemDel5 := list.First()
 	itemDel1 := list.Last()
 
@@ -96,7 +97,10 @@ func TestListRemove(t *testing.T) {
 		itemDel3 = itemDel3.next
 	}
 
+	list.Remove(itemDelOrphan)
 	list.Remove(itemDel5)
+	list.Remove(itemDel3)
+	list.Remove(itemDel3)
 	list.Remove(itemDel3)
 	list.Remove(itemDel3)
 	list.Remove(itemDel1)
@@ -110,7 +114,11 @@ func TestListRemove(t *testing.T) {
 		item = item.next
 	}
 
+	expectedLen := 2
+	actualLen := list.Len()
+
 	assert.Equal(t, expected, actual)
+	assert.Equal(t, expectedLen, actualLen)
 }
 
 func TestItemValue(t *testing.T) {

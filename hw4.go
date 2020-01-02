@@ -41,6 +41,10 @@ func (list *List) Last() *Item {
 }
 
 func (list *List) Remove(item *Item) {
+	if item.prev == nil && item.next == nil {
+		return
+	}
+
 	if item.prev == nil {
 		list.first = item.next
 	} else {
@@ -52,6 +56,10 @@ func (list *List) Remove(item *Item) {
 	} else {
 		item.next.prev = item.prev
 	}
+
+	item.next = nil
+	item.prev = nil
+	list.len--
 }
 
 func (list *List) Len() int {
