@@ -8,6 +8,7 @@ type List struct {
 
 func (list *List) PushFront(v int) {
 	newItem := &Item{value: v}
+	newItem.inList = list
 
 	if list.first == nil {
 		list.first = newItem
@@ -21,6 +22,7 @@ func (list *List) PushFront(v int) {
 
 func (list *List) PushBack(v int) {
 	newItem := &Item{value: v}
+	newItem.inList = list
 
 	if list.last == nil {
 		list.first = newItem
@@ -41,7 +43,7 @@ func (list *List) Last() *Item {
 }
 
 func (list *List) Remove(item *Item) {
-	if item.prev == nil && item.next == nil {
+	if item.inList != list {
 		return
 	}
 
@@ -57,8 +59,7 @@ func (list *List) Remove(item *Item) {
 		item.next.prev = item.prev
 	}
 
-	item.next = nil
-	item.prev = nil
+	*item = Item{}
 	list.len--
 }
 
@@ -95,6 +96,7 @@ func (list *List) pushBefore(item *Item, newItem *Item) {
 }
 
 type Item struct {
+	inList *List
 	value int
 	next  *Item
 	prev  *Item

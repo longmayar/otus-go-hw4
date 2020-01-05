@@ -12,7 +12,7 @@ func TestListPushFront(t *testing.T) {
 	list.PushFront(1)
 
 	var actual []int
-	expected := []int{1,2,3}
+	expected := []int{1, 2, 3}
 
 	item := list.First()
 	for item != nil {
@@ -30,7 +30,7 @@ func TestListPushBack(t *testing.T) {
 	list.PushBack(1)
 
 	var actual []int
-	expected := []int{3,2,1}
+	expected := []int{3, 2, 1}
 
 	item := list.First()
 	for item != nil {
@@ -106,7 +106,7 @@ func TestListRemove(t *testing.T) {
 	list.Remove(itemDel1)
 
 	var actual []int
-	expected := []int{4,2}
+	expected := []int{4, 2}
 
 	item := list.First()
 	for item != nil {
@@ -115,6 +115,25 @@ func TestListRemove(t *testing.T) {
 	}
 
 	expectedLen := 2
+	actualLen := list.Len()
+
+	assert.Equal(t, expected, actual)
+	assert.Equal(t, expectedLen, actualLen)
+}
+
+func TestListRemoveLast(t *testing.T) {
+	list := List{}
+	list.PushBack(1)
+
+	itemDelOrphan := &Item{value: 0}
+	itemDel1 := list.Last()
+
+	list.Remove(itemDelOrphan)
+	list.Remove(itemDel1)
+
+	var actual, expected []int
+
+	expectedLen := 0
 	actualLen := list.Len()
 
 	assert.Equal(t, expected, actual)
